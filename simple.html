@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>WebSocket Client</title>
+</head>
+<body>
+    <h1>WebSocket PDF Question-Answering</h1>
+    <input type="text" id="document_id" placeholder="Document ID">
+    <input type="text" id="question" placeholder="Your question">
+    <button onclick="sendMessage()">Send Question</button>
+    <p id="response"></p>
+
+    <script>
+        const ws = new WebSocket("ws://127.0.0.1:8000/ws/question/");
+
+        ws.onopen = () => {
+            console.log("Connected to WebSocket");
+        };
+
+        ws.onmessage = (event) => {
+            document.getElementById("response").innerText = "Response: " + event.data;
+        };
+
+        function sendMessage() {
+            const documentId = document.getElementById("document_id").value;
+            const question = document.getElementById("question").value;
+            ws.send(`${documentId}|${question}`);
+        }
+
+        ws.onclose = () => {
+            console.log("Disconnected from WebSocket");
+        };
+    </script>
+</body>
+</html>
