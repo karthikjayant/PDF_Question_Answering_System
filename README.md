@@ -98,3 +98,6 @@ def test_rate_limiting():
             websocket.send_text("1|What is the PNR number?")
         response = websocket.receive_text()
         assert "Rate limit exceeded" in response
+
+# run test with:
+pytest tests/test_main.py
